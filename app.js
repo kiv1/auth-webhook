@@ -27,9 +27,9 @@ app.post("/auth/webhook", async(req,res)=>{
     }
 })
 
-app.get('/auth/check', async(req,res)=>{
+app.get('/auth/check/:id', async(req,res)=>{
     try {
-        const id = "";
+        const {id} = req.params
         const userData = await pool.query("SELECT * FROM auth_data where id=$1",[id])
         res.json(userData.rowCount)
     } catch (error) {
