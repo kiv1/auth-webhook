@@ -41,7 +41,10 @@ app.get('/auth/user/:id', async(req,res)=>{
     try {
         const {id} = req.params
         const userData = await pool.query("SELECT * FROM auth_data where id=$1",[id])
-        res.json(userData)
+        if(userData.rowCount>0){
+            res.json(userData.rows[0])
+        }
+        res.json("No such user");
     } catch (error) {
         console.error(error.message)
     }
