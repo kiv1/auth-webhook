@@ -37,6 +37,16 @@ app.get('/auth/check/:id', async(req,res)=>{
     }
 })
 
+app.get('/auth/user/:id', async(req,res)=>{
+    try {
+        const {id} = req.params
+        const userData = await pool.query("SELECT * FROM auth_data where id=$1",[id])
+        res.json(userData)
+    } catch (error) {
+        console.error(error.message)
+    }
+})
+
 app.get('/', function(req, res) {
     res.send('Hello world!')
 }); 
