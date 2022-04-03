@@ -4,6 +4,7 @@ const app = express();
 
 //run queries on the pool
 const pool = require("./db")
+const seed = require("./seed")
 
 app.use(express.json()) // -> req.body
 
@@ -54,6 +55,13 @@ app.get('/', function(req, res) {
     res.send('Hello world!')
 }); 
 
-app.listen(8080, () => {
+app.listen(8080, async () => {
+    await seed.query(`CREATE DATABASE auth_database;`);
+    await pool.query(`    
+    CREATE TABLE auth_data(
+        id VARCHAR(255) PRIMARY KEY,
+        name VARCHAR(255),
+        email VARCHAR(255)
+    );`);
     console.log('Server Started');
 });
